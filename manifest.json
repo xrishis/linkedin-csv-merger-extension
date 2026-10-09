@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn CSV Merger + Cleaner",
+  "version": "1.1",
+  "description": "Watches for downloaded LinkedIn CSV exports and merges/cleans them into one file.",
+  "permissions": ["downloads", "storage"],
+  "host_permissions": ["file:///*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "LinkedIn CSV Merger"
+  }
+}

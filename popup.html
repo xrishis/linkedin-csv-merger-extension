@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg-start: #0f1724;
+        --bg-end: #1a365d;
+        --panel: rgba(255, 255, 255, 0.1);
+        --panel-border: rgba(255, 255, 255, 0.22);
+        --text-main: #eef2ff;
+        --text-muted: #b8c5de;
+        --green: #2dd4bf;
+        --red: #fda29b;
+      }
+
+      body {
+        font-family: "Trebuchet MS", "Segoe UI", "Verdana", sans-serif;
+        width: 320px;
+        margin: 0;
+        color: var(--text-main);
+        background: radial-gradient(160px 180px at 10% 10%, #1e293b, transparent 70%),
+          linear-gradient(160deg, var(--bg-start), var(--bg-end));
+        min-height: 100%;
+      }
+
+      .panel {
+        backdrop-filter: blur(6px);
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 14px;
+        margin: 12px;
+        padding: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+      }
+
+      .header {
+        margin-bottom: 10px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 17px;
+        letter-spacing: 0.2px;
+      }
+
+      .header .subtitle {
+        margin-top: 6px;
+        color: var(--text-muted);
+        font-size: 11px;
+      }
+
+      .status {
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        padding: 8px 10px;
+        line-height: 1.4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .status .status-text {
+        flex: 1;
+      }
+
+      .status .dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 6px;
+        background: var(--red);
+        box-shadow: 0 0 10px rgba(248, 113, 113, 0.6);
+      }
+
+      .status.on .dot {
+        background: var(--green);
+        box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
+        animation: pulse 1.2s infinite;
+      }
+
+      .stats {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        font-size: 12px;
+      }
+
+      .stat {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 2px;
+        color: #fff;
+      }
+
+      .controls {
+        display: grid;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .message {
+        margin-top: 10px;
+        border-radius: 8px;
+        padding: 8px 10px;
+        background: rgba(15, 23, 42, 0.45);
+        color: var(--text-muted);
+        min-height: 30px;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .message.error {
+        color: #fee2e2;
+        background: rgba(127, 29, 29, 0.4);
+      }
+
+      .toggle {
+        margin-top: 10px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-muted);
+      }
+
+      .toggle input {
+        accent-color: var(--green);
+      }
+
+      .note {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #cbd5f5;
+        line-height: 1.4;
+      }
+
+      .watermark {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 10px;
+        color: rgba(226, 232, 240, 0.6);
+        letter-spacing: 0.2px;
+      }
+
+      .controls button {
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        color: #f8fafc;
+        font-size: 13px;
+        letter-spacing: 0.2px;
+        cursor: pointer;
+        transition: transform 120ms ease, opacity 120ms ease;
+      }
+
+      .controls button:hover:not(:disabled) {
+        transform: translateY(-1px);
+      }
+
+      .controls button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      #startBtn {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      }
+
+      #stopBtn {
+        background: linear-gradient(135deg, #f43f5e, #be123c);
+      }
+
+      #mergeBtn {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+      }
+
+      #clearBtn {
+        background: linear-gradient(135deg, #334155, #1f2937);
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.85;
+        }
+
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .fade-in {
+        animation: fade 160ms ease;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel fade-in">
+      <div class="header">
+        <h1>LinkedIn CSV Merger</h1>
+        <div class="subtitle">Smart merge for LinkedIn exports</div>
+      </div>
+
+      <div id="status" class="status">
+        <span class="status-text"><span class="dot"></span><span id="statusText">Not capturing</span></span>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><strong id="fileCount">0</strong> file(s)</div>
+        <div class="stat"><strong id="rowCount">0</strong> row(s)</div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn">Start capturing</button>
+        <div class="actions">
+          <button id="stopBtn">Stop capturing</button>
+          <button id="clearBtn">Clear data</button>
+          <button id="mergeBtn">Merge &amp; download</button>
+        </div>
+      </div>
+
+      <label class="toggle">
+        <input type="checkbox" id="filterToggle" checked />
+        Only import likely LinkedIn CSV files
+      </label>
+
+      <div id="statusMessage" class="message"></div>
+
+      <div class="note">
+        Start capture, download your connections exports, then merge once you are done.
+      </div>
+      <div class="watermark">Code by Rishi</div>
+    </div>
+    <script src="csv-utils.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
